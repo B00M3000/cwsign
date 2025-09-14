@@ -13,7 +13,8 @@
   }
 
   onMount(() => {
-    iframeElement.src = "https://cpw.tzhou.net";
+    const sessionId = "e4609d7f-3641-4688-8993-dd2b152fdb9c";
+    iframeElement.src = `https://cpw.tzhou.net/poster?session_id=${sessionId}`;
   });
 </script>
 

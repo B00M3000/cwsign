@@ -1,16 +1,16 @@
 <script lang="ts">
   import { page } from '$app/state';
-  import { onMount } from 'svelte';
-  import { Image, Calendar, Folders, RefreshCw, DoorOpen, House } from '@lucide/svelte';
+  import { Calendar, RefreshCw, DoorOpen, House, FolderOpen } from '@lucide/svelte';
+import { browser } from '$app/environment';
 
   import "../app.css";
-    import { browser } from '$app/environment';
+
 
   const navLinks = [
     { href: '/', label: 'Home', icon: House },
-    { href: '/cpw', label: 'Project Week', icon: Folders },
-    { href: '/free-rooms', label: 'Free Rooms', icon: DoorOpen },
-    { href: '/meetings', label: 'Our Meetings', icon: Calendar }
+    { href: '/meetings', label: 'Our Meetings', icon: Calendar },
+    { href: '/cpw', label: 'Project Week', icon: FolderOpen },
+    { href: '/free-rooms', label: 'Free Rooms', icon: DoorOpen }
   ];
 
   let { children } = $props();
@@ -29,7 +29,7 @@
     todayString = "Today is " + today.toLocaleDateString(undefined, options);
   }
 
-  
+
 </script>
 
 <svelte:head>
@@ -50,7 +50,6 @@
         >
           <link.icon size={32} />
           <span class="text-xl text-center w-full font-medium">{link.label}</span>
-          <!-- <div class="w-3 h-3 {active ? 'bg-white' : 'bg-transparent'} transition-all duration-200"></div> -->
         </a>
       {/each}
     </div>
@@ -69,7 +68,7 @@
     </div>
   </div>
 
-  <div class="w-full h-full">
+  <div class="w-full h-full overflow-hidden">
     {@render children()}
   </div>
 </div>

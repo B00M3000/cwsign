@@ -1,18 +1,35 @@
 meetings:
   - id: 1
-    title: "Intro to Web Development"
-    presenter: "Alex Johnson"
-    date: "2025-09-12"
-    description: "Learn the basics of HTML, CSS, and JavaScript to build your first website."
-  
+    title: "Computers 101"
+    presenter: "Jacob Signorvitch"
+    date: "09/11/2025"
+    room: "2B"
+    description: "Introduction to computer basics, the layers of caching and how they work at a low level."
+
   - id: 2
-    title: "AI and Machine Learning"
-    presenter: "Sarah Lee"
-    date: "2025-09-13"
-    description: "An introduction to machine learning concepts and real-world applications."
-  
+    title: "git 101"
+    presenter: "Jacob Signorvitch"
+    date: "09/12/2025"
+    room: "3A"
+    description: "An introduction to version control with git. Everybody uses it, but how does it actually work?"
+
   - id: 3
-    title: "Cybersecurity Basics"
-    presenter: "David Kim"
-    date: "2025-09-15"
-    description: "Explore essential cybersecurity practices to stay safe online."
+    title: "Architectures of Production Web Applications"
+    presenter: "Thomas Zhou"
+    date: "09/13/2025"
+    room: "3D"
+    description: "We will be looking at ways to architect web applications for production use, including topics such as load balancing, caching, replication, and more. We will begin with the basics and build up to more advanced systems."
+
+  - id: 4
+    title: "Introduction to Amazon Web Services"
+    presenter: "Nikhil Chandran"
+    date: "09/26/2025"
+    room: "3A"
+    description: "We will be giving a overview of the core services offered by AWS, including compute, storage, and databases, and how they are used."
+
+  - id: 5
+    title: "Introduction to C/pointers"
+    presenter: "Jacob Signorvitch"
+    date: "Planned"
+    room: "TBD"
+    description: "We will be giving a overview of C/pointers, including how they work, common pitfalls, and best practices."
