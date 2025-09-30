@@ -6,6 +6,7 @@
     DoorOpen,
     House,
     FolderOpen,
+    Timer,
   } from "@lucide/svelte";
   import { browser } from "$app/environment";
 
@@ -20,7 +21,11 @@
 
   let { children } = $props();
 
+  // Configuration - change this to adjust switching time
+  const SWITCH_TIME_SECONDS = 60;
+
   let todayString = $state<string>();
+  let countdown = $state<number>(SWITCH_TIME_SECONDS);
   const activePath = $derived(page.url.pathname);
 
   if (browser) {
@@ -34,40 +39,42 @@
     todayString = "Today is " + today.toLocaleDateString(undefined, options);
   }
 
-  // Inactivity and random page switching logic
+  // Simple auto-switching logic
   if (browser) {
-    let inactivityTimeout: ReturnType<typeof setTimeout>;
-    let switchInterval: ReturnType<typeof setInterval>;
-    let lastInteraction = Date.now();
-
+    let timer: ReturnType<typeof setInterval>;
     const navHrefs = navLinks.map((l) => l.href);
 
-    function resetInactivity() {
-      lastInteraction = Date.now();
-      clearTimeout(inactivityTimeout);
-      clearInterval(switchInterval);
-      inactivityTimeout = setTimeout(startSwitching, 60000); // 1 min
-    }
-
-    function startSwitching() {
-      switchInterval = setInterval(() => {
-        // Pick a random page different from current
-        const current = window.location.pathname;
-        const choices = navHrefs.filter((h) => h !== current);
-        if (choices.length > 0) {
-          const next = choices[Math.floor(Math.random() * choices.length)];
-          window.location.href = next;
+    function startTimer() {
+      countdown = SWITCH_TIME_SECONDS;
+      timer = setInterval(() => {
+        countdown--;
+        if (countdown <= 0) {
+          // Switch to random page
+          const current = window.location.pathname;
+          const choices = navHrefs.filter((h) => h !== current);
+          if (choices.length > 0) {
+            const next = choices[Math.floor(Math.random() * choices.length)];
+            window.location.href = next;
+          }
+          countdown = SWITCH_TIME_SECONDS;
         }
-      }, 60000); // every 1 min
+      }, 1000);
     }
 
-    // Listen for user activity
+    function resetTimer() {
+      clearInterval(timer);
+      startTimer();
+    }
+
+    // Reset timer on user activity
     ["mousemove", "keydown", "mousedown", "touchstart", "scroll"].forEach(
       (evt) => {
-        window.addEventListener(evt, resetInactivity, { passive: true });
+        window.addEventListener(evt, resetTimer, { passive: true });
       },
     );
-    inactivityTimeout = setTimeout(startSwitching, 60000);
+
+    // Start the timer
+    startTimer();
   }
 </script>
 
@@ -96,7 +103,7 @@
         </a>
       {/each}
     </div>
-    <div class="mt-auto">
+    <div class="mt-auto flex justify-between items-center w-full">
       <button
         onclick={(e) => {
           e.currentTarget.style.animation = "spin 1s linear infinite";
@@ -108,10 +115,17 @@
       >
         <RefreshCw size={24} />
       </button>
+
+      <div
+        class="text-sm text-slate-300 font-mono bg-slate-700 px-3 py-2 rounded flex items-center gap-2"
+      >
+        <Timer size={16} />
+        {countdown}s
+      </div>
     </div>
   </div>
 
-  <div class="w-full h-full overflow-hidden">
+  <div class="w-full h-full overflow-y-auto">
     {@render children()}
   </div>
 </div>
