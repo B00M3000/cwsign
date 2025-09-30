@@ -25,7 +25,11 @@
   }
 
   const teamMembers: TeamMember[] = [
-    { name: "Thomas", gradYear: 2026, badges: ["president", "presenter", "poster"] },
+    {
+      name: "Thomas",
+      gradYear: 2026,
+      badges: ["president", "presenter", "poster"],
+    },
     { name: "Jacob", gradYear: 2026, badges: ["director", "presenter"] },
     { name: "Nikhil", gradYear: 2026, badges: ["director", "presenter"] },
     { name: "Siri", gradYear: 2027, badges: ["poster"] },
@@ -75,7 +79,7 @@
 >
   <div class="text-center space-y-6 max-w-4xl">
     <!-- Main Title -->
-    <div class="space-y-2 my-24">
+    <div class="space-y-2 my-12">
       <h1 class="text-6xl font-bold text-indigo-900 tracking-tight">
         CS Club Digital Poster
       </h1>
@@ -120,7 +124,9 @@
                     >{member.name}</span
                   >
                   {#if member.gradYear}
-                    <span class="text-xs text-gray-500 font-medium">'{member.gradYear.toString().slice(-2)}</span>
+                    <span class="text-xs text-gray-500 font-medium"
+                      >'{member.gradYear.toString().slice(-2)}</span
+                    >
                   {/if}
                 </div>
                 <div class="flex flex-wrap gap-1">
@@ -171,12 +177,8 @@
       </div>
     </div>
 
-    
-
     <!-- Footer Credits -->
     <div class="space-y-3 text-gray-600">
-      
-
       <p class="text-base">
         <span class="font-medium">Special Thanks to Mr. Hinterlang</span><br />
         for making this possible! 🙏
