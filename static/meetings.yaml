@@ -16,7 +16,7 @@ meetings:
   - id: 3
     title: "Architectures of Production Web Applications"
     presenter: "Thomas Zhou"
-    date: "09/13/2025"
+    date: "09/15/2025"
     room: "3D"
     description: "We will be looking at ways to architect web applications for production use, including topics such as load balancing, caching, replication, and more. We will begin with the basics and build up to more advanced systems."
 
@@ -28,8 +28,22 @@ meetings:
     description: "We will be giving a overview of the core services offered by AWS, including compute, storage, and databases, and how they are used."
 
   - id: 5
+    title: "Digital Poster Workshop"
+    presenter: "Thomas Zhou"
+    date: "09/29/2025"
+    room: "3D"
+    description: "We will be doing a workshop on frontend and backend. Some of the work you do may end up on the digital poster going up later this week."
+
+  - id: 6
     title: "Introduction to C/pointers"
     presenter: "Jacob Signorvitch"
-    date: "Planned"
-    room: "TBD"
+    date: "10/3/2025"
+    room: "3A"
     description: "We will be giving a overview of C/pointers, including how they work, common pitfalls, and best practices."
+
+  - id: 6
+    title: "Machine Learning"
+    presenter: "Ethan Wu"
+    date: "10/6/2025"
+    room: "3D"
+    description: "Content to be determined."
