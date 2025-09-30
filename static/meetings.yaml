@@ -41,7 +41,7 @@ meetings:
     room: "3A"
     description: "We will be giving a overview of C/pointers, including how they work, common pitfalls, and best practices."
 
-  - id: 6
+  - id: 7
     title: "Machine Learning"
     presenter: "Ethan Wu"
     date: "10/6/2025"
