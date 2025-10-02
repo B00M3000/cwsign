@@ -31,11 +31,12 @@
       badges: ["president", "presenter", "poster"],
     },
     { name: "Jacob", gradYear: 2026, badges: ["director", "presenter"] },
-    { name: "Nikhil", gradYear: 2026, badges: ["director", "presenter"] },
+    { name: "Nikhil", gradYear: 2027, badges: ["director", "presenter"] },
     { name: "Siri", gradYear: 2027, badges: ["poster"] },
     { name: "Jasmine", gradYear: 2027, badges: ["poster"] },
     { name: "Anand", gradYear: 2029, badges: ["poster"] },
     { name: "Carter", gradYear: 2027, badges: ["poster"] },
+    { name: "Ethan", gradYear: 2026, badges: ["presenter"] },
     { name: "Auren", gradYear: 2026, badges: ["ROCKETS!"] },
   ];
 
