@@ -26,18 +26,29 @@
 
   const teamMembers: TeamMember[] = [
     {
-      name: "Thomas",
+      name: "Thomas Zhou",
       gradYear: 2026,
       badges: ["president", "presenter", "poster"],
     },
-    { name: "Jacob", gradYear: 2026, badges: ["director", "presenter"] },
-    { name: "Nikhil", gradYear: 2027, badges: ["director", "presenter"] },
-    { name: "Siri", gradYear: 2027, badges: ["poster"] },
-    { name: "Jasmine", gradYear: 2027, badges: ["poster"] },
-    { name: "Anand", gradYear: 2029, badges: ["poster"] },
-    { name: "Carter", gradYear: 2027, badges: ["poster"] },
+    { name: "Jacob Signorovitch", gradYear: 2026, badges: ["director", "presenter"] },
+    { name: "Nikhil Chandran", gradYear: 2027, badges: ["director", "presenter"] },
     { name: "Ethan", gradYear: 2026, badges: ["presenter"] },
-    { name: "Auren", gradYear: 2026, badges: ["ROCKETS!"] },
+    { name: "Auren", gradYear: 2026, badges: ["presenter", "ROCKETS!"] },
+    { name: "Jasmine Liu", gradYear: 2027, badges: ["poster"] },
+    { name: "Siri Cox", gradYear: 2027, badges: ["poster"] },
+    { name: "Carter Bradshaw", gradYear: 2027, badges: ["poster"] },
+    { name: "Jasmine Liu", gradYear: 2027, badges: ['poster'] },
+    { name: "Anand Mani", gradYear: 2029, badges: ["poster"] },
+    { name: "Vybhav Velamoor", gradYear: 2027, badges: [] },
+    { name: "Angela Tun", gradYear: 2027, badges: [] },
+    { name: "Andrew Xu-Ding", gradYear: 2029, badges: [] },
+    { name: "Arihaan Haran", gradYear: 2029, badges: [] },
+    { name: "Brandon Zhou", gradYear: 2026, badges: [] },
+    { name: "Brian Li", gradYear: 2026, badges: [] },
+    { name: "Mark Taylor", gradYear: 2029, badges: [] },
+    { name: "Sam Wilson", gradYear: 2028, badges: [] },
+    { name: "Shray Souda", gradYear: 2028, badges: [] },
+    { name: "Akul Kumar", gradYear: 2027, badges: [] },
   ];
 
   function getBadgeClasses(badge: string): string {
