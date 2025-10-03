@@ -28,7 +28,7 @@ meetings:
     description: "We will be giving a overview of the core services offered by AWS, including compute, storage, and databases, and how they are used."
 
   - id: 5
-    title: "Digital Poster Workshop"
+    title: "Digital Poster Workshop (Frontend/Backend)"
     presenter: "Thomas Zhou"
     date: "09/29/2025"
     room: "3D"
@@ -42,8 +42,22 @@ meetings:
     description: "We will be giving a overview of C/pointers, including how they work, common pitfalls, and best practices."
 
   - id: 7
-    title: "Machine Learning"
-    presenter: "Ethan Wu"
+    title: "An application of C"
+    presenter: "Auren Amster"
     date: "10/6/2025"
     room: "3D"
-    description: "Content to be determined."
+    description: "Arduinos (to be elaborated on...)"
+
+  - id: 8
+    title: "Machine Learning"
+    presenter: "Ethan Wu"
+    date: "10/10/2025"
+    room: "3A"
+    description: "An intuitive introduction to machine learning, no experience required."
+
+  - id: 9
+    title: "Digital Poster Workshop (Database Design)"
+    presenter: "Thomas Zhou and Nikhil Chandran"
+    date: "10/15/2025"
+    room: "3A"
+    description: "We will go over pushing peoples changes to Github Repository. We will also be going over database design for our digital poster, no experience required."
