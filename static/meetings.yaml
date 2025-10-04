@@ -42,11 +42,11 @@ meetings:
     description: "We will be giving a overview of C/pointers, including how they work, common pitfalls, and best practices."
 
   - id: 7
-    title: "An application of C"
+    title: "Arduino Programming (A application of C)"
     presenter: "Auren Amster"
     date: "10/6/2025"
     room: "3D"
-    description: "Arduinos (to be elaborated on...)"
+    description: "We will discuss an environment that can make great use of the features of the C language."
 
   - id: 8
     title: "Machine Learning"
