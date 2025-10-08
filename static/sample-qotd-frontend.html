@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Question of the Day</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f4f6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      color: #111827;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      color: #374151;
+      margin-bottom: 1.5rem;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      resize: vertical;
+    }
+
+    button {
+      width: 100%;
+      background-color: #2563eb;
+      color: white;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #1e40af;
+    }
+
+    .message {
+      margin-top: 1rem;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .error {
+      color: #dc2626;
+    }
+
+    .success {
+      color: #16a34a;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Question of the Day</h1>
+    <p id="question">Loading question...</p>
+
+    <form id="answerForm">
+      <textarea
+        id="answer"
+        placeholder="Type your answer here..."
+        rows="4"
+        required
+      ></textarea>
+      <button type="submit">Submit Answer</button>
+    </form>
+
+    <div id="message" class="message"></div>
+  </div>
+
+  <script>
+    // 🔧 Replace with your actual API Gateway or backend URLs:
+    const QUESTION_API = "https://k4zhorvo0h.execute-api.us-east-1.amazonaws.com/question";
+    const RESPONSE_API = "https://55mlf1iovk.execute-api.us-east-1.amazonaws.com/response";
+
+    const questionEl = document.getElementById("question");
+    const form = document.getElementById("answerForm");
+    const messageEl = document.getElementById("message");
+
+    // Fetch the Question of the Day
+    async function fetchQuestion() {
+      try {
+        const res = await fetch(QUESTION_API);
+        if (!res.ok) {
+          if (res.status === 404) {
+            questionEl.textContent = "No question found for today.";
+            return;
+          }
+          throw new Error("Network error");
+        }
+
+        const data = await res.json();
+        questionEl.textContent = data.question_text || "No question text found.";
+      } catch (err) {
+        questionEl.textContent = "❌ Failed to load question.";
+      }
+    }
+
+    // Handle answer submission
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const answer = document.getElementById("answer").value.trim();
+      if (!answer) return;
+
+      messageEl.textContent = "Submitting...";
+      messageEl.className = "message";
+
+      try {
+        const res = await fetch(RESPONSE_API, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ response: answer }), // ✅ matches backend schema
+        });
+
+        const data = await res.json();
+
+        if (res.status === 201) {
+          messageEl.textContent = "✅ " + data.message;
+          messageEl.classList.add("success");
+          form.reset();
+        } else {
+          messageEl.textContent = "❌ " + (data.error || "Submission failed.");
+          messageEl.classList.add("error");
+        }
+      } catch (err) {
+        messageEl.textContent = "❌ Network error submitting answer.";
+        messageEl.classList.add("error");
+      }
+    });
+
+    // Load question on page load
+    fetchQuestion();
+  </script>
+</body>
+</html>
