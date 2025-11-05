@@ -1,0 +1,68 @@
+AWSTemplateFormatVersion: '2010-09-09' #needs to be run on a server for some dumb reason
+Transform: AWS::Serverless-2016-10-31
+Description: Fetches the question for the current day - v2.
+
+
+Globals:
+  Function:
+    Timeout: 10
+    Runtime: python3.12
+    Architectures:
+      - x86_64
+    Environment:
+      Variables:
+        LOG_LEVEL: "INFO"
+
+Resources:
+  GetQuestionApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      CorsConfiguration:
+        AllowOrigins: ["*"]
+        AllowHeaders: ["Content-Type"]
+        AllowMethods: ["GET", "POST"]
+
+  PostResponseApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      CorsConfiguration:
+        AllowOrigins: ["*"]
+        AllowHeaders: ["Content-Type"]
+        AllowMethods: ["GET", "POST"]
+
+  GetQuestionFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: api/qotd/
+      Handler: get_question.handler
+      Description: Fetches the question for the current day.
+      Events:
+        GetQuestionEvent:
+          Type: HttpApi
+          Properties:
+            Path: /question
+            Method: GET
+            ApiId: !Ref GetQuestionApi
+
+  PostResponseFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: api/qotd/
+      Handler: post_response.handler
+      Description: Submits a new response for the daily question.
+      Events:
+        PostResponseEvent:
+          Type: HttpApi
+          Properties:
+            Path: /response
+            Method: POST
+            ApiId: !Ref PostResponseApi
+
+Outputs:
+  GetQuestionApiEndpoint:
+    Description: "API Gateway endpoint URL for the GET Question function"
+    Value: !Sub "https://${GetQuestionApi}.execute-api.${AWS::Region}.amazonaws.com"
+  
+  PostResponseApiEndpoint:
+    Description: "API Gateway endpoint URL for the POST Response function"
+    Value: !Sub "https://${PostResponseApi}.execute-api.${AWS::Region}.amazonaws.com"
