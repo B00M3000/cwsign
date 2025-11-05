@@ -65,6 +65,13 @@ meetings:
   - id: 10
     title: "Introduction to R"
     presenter: "Jacob Signorvitch"
-    date: "10/17/2025"
+    date: "11/07/2025"
     room: "3A"
-    description: "An introduction to R programming, no experience required."
+    description: "ABCDEFGHIJKLMNOPQRSTUVWXYZ. I just recited 26 letters of the alphebet, or 26 computer languages. Jacob will be doing an introduction to R programming, no experience required."
+
+  - id: 11
+    title: "Misconceptions about computers: Hardware, Operating System,  Software, and Networking."
+    presenter: "Thomas Zhou"
+    date: "11/14/2025"
+    room: "3A"
+    description: "Common misconceptions about computers. How the different levels of a computer from the hardware, operating system, software, and networks interact. We will use the examples of orchestration, machine images, and more. No experience required!"
