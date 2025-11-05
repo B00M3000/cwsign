@@ -48,16 +48,23 @@ meetings:
     room: "3A"
     description: "We will go over pushing peoples changes to Github Repository. We will also be going over database design in general and in the context of our digital poster, no experience required."
 
-  - id: 8
-    title: "Arduino Programming (A application of C)"
-    presenter: "Auren Amster"
-    date: "TBD"
-    room: "TBD"
-    description: "We will discuss an environment that can make great use of the features of the C language."
+  # - id: 8
+  #   title: "Arduino Programming (A application of C)"
+  #   presenter: "Auren Amster"
+  #   date: "TBD"
+  #   room: "TBD"
+  #   description: "We will discuss an environment that can make great use of the features of the C language."
 
   - id: 9
     title: "Machine Learning"
     presenter: "Ethan Wu"
-    date: "TBD"
-    room: "TBD"
+    date: "10/17/2025"
+    room: "3A"
     description: "An intuitive introduction to machine learning, no experience required."
+
+  - id: 10
+    title: "Introduction to R"
+    presenter: "Jacob Signorvitch"
+    date: "10/17/2025"
+    room: "3A"
+    description: "An introduction to R programming, no experience required."
