@@ -73,5 +73,19 @@ meetings:
     title: "Misconceptions about computers: Hardware, Operating System,  Software, and Networking."
     presenter: "Thomas Zhou"
     date: "11/14/2025"
-    room: "3A"
+    room: "3D"
     description: "Common misconceptions about computers. How the different levels of a computer from the hardware, operating system, software, and networks interact. We will use the examples of orchestration, machine images, and more. No experience required!"
+
+  - id: 12
+    title: "Bayesian Statistics: Applications in Spam Filtering and ML"
+    presenter: "Nikhil Chandran"
+    date: "02/18/2026"
+    room: "2A"
+    description: "I will be giving an introduction to Bayesian statistics, including applications in spam filtering and machine learning. No experience required!"
+
+  - id: 13
+    title: "A undetermined topic..."
+    presenter: "Jacob Signorvitch"
+    date: "2/27/2026"
+    room: "3D"
+    description: "Qubit is thinking..."
