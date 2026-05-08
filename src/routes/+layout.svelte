@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page } from "$app/state";
-  import { goto, preloadCode, preloadData } from "$app/navigation";
+  import { goto } from "$app/navigation";
   import { onMount } from "svelte";
   import {
     Calendar,
@@ -98,12 +98,11 @@
 
   <!-- Top nav bar -->
   <div class="flex items-center bg-slate-800 text-white border-b border-slate-700 h-14 px-4 gap-2 shrink-0">
-    <nav class="flex items-center gap-1.5 flex-1">
+    <nav class="flex items-center gap-1.5 flex-1" data-sveltekit-preload-data="hover" data-sveltekit-preload-code="hover">
       {#each navLinks as link}
         {@const active = activePath === link.href}
         <a
           href={link.href}
-          onmouseenter={() => { preloadCode(link.href); preloadData(link.href); }}
           class="nav-link flex items-center gap-2 px-3 py-1.5 rounded-lg transition-colors duration-150 text-sm font-medium"
           class:active
         >
