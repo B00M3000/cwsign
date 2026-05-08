@@ -1,5 +1,7 @@
 <script lang="ts">
   import { page } from "$app/state";
+  import { goto, preloadCode, preloadData } from "$app/navigation";
+  import { onMount } from "svelte";
   import {
     Calendar,
     RefreshCw,
@@ -9,7 +11,7 @@
     Timer,
     ForkKnife,
   } from "@lucide/svelte";
-  import { browser } from "$app/environment";
+  import StockTicker from "$lib/StockTicker.svelte";
 
   import "../app.css";
 
@@ -23,61 +25,68 @@
 
   let { children } = $props();
 
-  // Configuration - change this to adjust switching time
   const SWITCH_TIME_SECONDS = 60;
+  const navHrefs = navLinks.map((l) => l.href);
 
-  let todayString = $state<string>();
-  let countdown = $state<number>(SWITCH_TIME_SECONDS);
+  let todayString = $state("");
+  let timeString = $state("");
+  let countdown = $state(SWITCH_TIME_SECONDS);
   const activePath = $derived(page.url.pathname);
 
-  if (browser) {
-    const today = new Date();
-    const options: Intl.DateTimeFormatOptions = {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    };
-    todayString = "Today is " + today.toLocaleDateString(undefined, options);
-  }
+  let switchTimer: ReturnType<typeof setInterval>;
 
-  // Simple auto-switching logic
-  if (browser) {
-    let timer: ReturnType<typeof setInterval>;
-    const navHrefs = navLinks.map((l) => l.href);
-
-    function startTimer() {
-      countdown = SWITCH_TIME_SECONDS;
-      timer = setInterval(() => {
-        countdown--;
-        if (countdown <= 0) {
-          // Switch to random page
-          const current = window.location.pathname;
-          const choices = navHrefs.filter((h) => h !== current);
-          if (choices.length > 0) {
-            const next = choices[Math.floor(Math.random() * choices.length)];
-            window.location.href = next;
-          }
-          countdown = SWITCH_TIME_SECONDS;
+  function startSwitchTimer() {
+    clearInterval(switchTimer);
+    countdown = SWITCH_TIME_SECONDS;
+    switchTimer = setInterval(() => {
+      countdown -= 1;
+      if (countdown <= 0) {
+        clearInterval(switchTimer);
+        const choices = navHrefs.filter((h) => h !== page.url.pathname);
+        if (choices.length > 0) {
+          goto(choices[Math.floor(Math.random() * choices.length)]);
         }
-      }, 1000);
-    }
-
-    function resetTimer() {
-      clearInterval(timer);
-      startTimer();
-    }
-
-    // Reset timer on user activity
-    ["mousemove", "keydown", "mousedown", "touchstart", "scroll"].forEach(
-      (evt) => {
-        window.addEventListener(evt, resetTimer, { passive: true });
-      },
-    );
-
-    // Start the timer
-    startTimer();
+      }
+    }, 1000);
   }
+
+  // Reset the switch timer whenever the route changes
+  $effect(() => {
+    const _ = activePath;
+    startSwitchTimer();
+  });
+
+  onMount(() => {
+    // Clock
+    function updateClock() {
+      const now = new Date();
+      todayString = now.toLocaleDateString(undefined, {
+        weekday: "short",
+        month: "short",
+        day: "numeric",
+      });
+      timeString = now.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
+    }
+    updateClock();
+    const clockId = setInterval(updateClock, 1000);
+
+    // Reset switch timer on user activity
+    function onActivity() {
+      startSwitchTimer();
+    }
+    const events = ["mousemove", "keydown", "mousedown", "touchstart", "scroll"];
+    events.forEach((e) => window.addEventListener(e, onActivity, { passive: true }));
+
+    return () => {
+      clearInterval(clockId);
+      clearInterval(switchTimer);
+      events.forEach((e) => window.removeEventListener(e, onActivity));
+    };
+  });
 </script>
 
 <svelte:head>
@@ -85,116 +94,94 @@
   <link rel="manifest" href="/manifest.json" />
 </svelte:head>
 
-<div class="grid grid-cols-[auto_1fr] h-screen w-screen">
-  <div class="flex flex-col items-start bg-slate-800 w-[18rem] text-white p-8">
-    <h2 class="text-3xl mb-4 font-semibold">CS Club Digital Poster</h2>
-    <div class="mb-8 text-lg text-slate-100">{todayString}</div>
-    <div class="flex flex-col gap-4 w-full">
+<div class="flex flex-col h-dvh w-screen overflow-hidden">
+
+  <!-- Top nav bar -->
+  <div class="flex items-center bg-slate-800 text-white border-b border-slate-700 h-14 px-4 gap-2 shrink-0">
+    <nav class="flex items-center gap-1.5 flex-1">
       {#each navLinks as link}
         {@const active = activePath === link.href}
         <a
           href={link.href}
-          class="nav-button grid grid-cols-[auto_1fr] justify-between items-center p-4 w-full gap-3 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-xl {active
-            ? 'active'
-            : ''}"
+          onmouseenter={() => { preloadCode(link.href); preloadData(link.href); }}
+          class="nav-link flex items-center gap-2 px-3 py-1.5 rounded-lg transition-colors duration-150 text-sm font-medium"
+          class:active
         >
-          <link.icon size={32} />
-          <span class="text-xl text-center w-full font-medium"
-            >{link.label}</span
-          >
+          <link.icon size={16} class="shrink-0" />
+          <span class="whitespace-nowrap">{link.label}</span>
         </a>
       {/each}
-    </div>
-    <div class="mt-auto flex justify-between items-center w-full">
+    </nav>
+
+    <div class="flex items-center gap-3 shrink-0">
+      {#if todayString}
+        <span class="text-slate-400 text-xs whitespace-nowrap">{todayString}</span>
+      {/if}
+      {#if timeString}
+        <span class="text-white text-sm font-mono font-semibold tabular-nums">{timeString}</span>
+      {/if}
+      <div class="flex items-center gap-1 text-slate-500 text-xs">
+        <Timer size={13} />
+        <span class="tabular-nums">{countdown}s</span>
+      </div>
       <button
         onclick={(e) => {
           e.currentTarget.style.animation = "spin 1s linear infinite";
-          setTimeout(() => {
-            window.location.reload();
-          }, 500);
+          setTimeout(() => window.location.reload(), 500);
         }}
-        class="refresh-button p-3 rounded-xl transition-all duration-300 transform hover:scale-110 hover:shadow-lg"
+        title="Refresh"
+        class="icon-btn p-1.5 rounded-lg transition-colors duration-150"
       >
-        <RefreshCw size={24} />
+        <RefreshCw size={15} />
       </button>
-
-      <div
-        class="countdown-display text-slate-200 px-2 py-1 rounded-xl flex items-center gap-2 shadow-lg"
-      >
-        <Timer size={20}/>
-        <span class="text-base mt-[3px]">{countdown}s</span>
-      </div>
     </div>
   </div>
 
-  <div class="w-full h-full overflow-y-auto">
+  <!-- Stock ticker -->
+  <StockTicker />
+
+  <!-- Main content -->
+  <div class="flex-1 min-h-0 overflow-y-auto">
     {@render children()}
   </div>
+
 </div>
 
 <style>
   @keyframes spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
   }
 
-  .nav-button {
-    background: linear-gradient(135deg, #1e40af 0%, #0891b2 50%, #0f766e 100%);
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    color: white;
+  .nav-link {
+    color: #94a3b8;
     text-decoration: none;
-    position: relative;
-    overflow: hidden;
+    background-color: #1e293b;
+    border: 1px solid #334155;
   }
 
-  .nav-button::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.2),
-      transparent
-    );
-    transition: left 0.5s;
+  .nav-link:hover {
+    background-color: #334155;
+    border-color: #475569;
+    color: #f1f5f9;
   }
 
-  .nav-button:hover::before {
-    left: 100%;
+  .nav-link.active {
+    background-color: #1e40af;
+    border-color: #3b82f6;
+    color: #ffffff;
   }
 
-  .nav-button:hover {
-    background: linear-gradient(135deg, #1e3a8a 0%, #0e7490 50%, #134e4a 100%);
-    border-color: rgba(255, 255, 255, 0.4);
+  .icon-btn {
+    background-color: #1e293b;
+    border: 1px solid #334155;
+    color: #94a3b8;
+    cursor: pointer;
   }
 
-  .nav-button.active {
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
-    border-color: rgba(255, 255, 255, 0.6);
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
-  }
-
-  .refresh-button {
-    background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    color: white;
-  }
-
-  .refresh-button:hover {
-    background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%);
-    border-color: rgba(255, 255, 255, 0.4);
-  }
-
-  .countdown-display {
-    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+  .icon-btn:hover {
+    background-color: #334155;
+    border-color: #475569;
+    color: #f1f5f9;
   }
 </style>

@@ -3,7 +3,9 @@
 /* @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography'; */
 
-body {
+html, body {
 	font-family: 'Roboto', sans-serif;
 	margin: 0;
+	overflow: hidden;
+	height: 100%;
 }

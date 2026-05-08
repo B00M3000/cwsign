@@ -58,6 +58,28 @@ Resources:
             Method: POST
             ApiId: !Ref PostResponseApi
 
+  StocksApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      CorsConfiguration:
+        AllowOrigins: ["*"]
+        AllowHeaders: ["Content-Type"]
+        AllowMethods: ["GET"]
+
+  GetStocksFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: api/stocks/
+      Handler: get_stocks.handler
+      Description: Proxies Yahoo Finance stock quotes for NASDAQ, S&P 500, and NVDA.
+      Events:
+        GetStocksEvent:
+          Type: HttpApi
+          Properties:
+            Path: /stocks
+            Method: GET
+            ApiId: !Ref StocksApi
+
 Outputs:
   GetQuestionApiEndpoint:
     Description: "API Gateway endpoint URL for the GET Question function"
@@ -66,3 +88,7 @@ Outputs:
   PostResponseApiEndpoint:
     Description: "API Gateway endpoint URL for the POST Response function"
     Value: !Sub "https://${PostResponseApi}.execute-api.${AWS::Region}.amazonaws.com"
+
+  StocksApiEndpoint:
+    Description: "API Gateway endpoint URL for the Stocks proxy function"
+    Value: !Sub "https://${StocksApi}.execute-api.${AWS::Region}.amazonaws.com"
