@@ -11,10 +11,10 @@ const SYMBOLS = [
   { stooq: 'tsla.us',  display: 'TSLA' },
 ];
 
-const CORS_HEADERS = {
+const HEADERS = {
   'Content-Type': 'application/json',
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET',
+  'Access-Control-Allow-Methods': 'GET, OPTIONS',
 };
 
 async function stooqGet(sym: string): Promise<Record<string, unknown> | null> {
@@ -30,7 +30,10 @@ async function stooqGet(sym: string): Promise<Record<string, unknown> | null> {
 
 function round2(n: number) { return Math.round(n * 100) / 100; }
 
-export const handler = async () => {
+export const handler = async (event: { requestContext?: { http?: { method?: string } } }) => {
+  if (event?.requestContext?.http?.method === 'OPTIONS') {
+    return { statusCode: 200, headers: HEADERS, body: '' };
+  }
   try {
     const quotes = await Promise.all(SYMBOLS.map((s) => stooqGet(s.stooq)));
     const stocks = SYMBOLS.map((def, i) => {
@@ -41,8 +44,8 @@ export const handler = async () => {
       const changePercent = round2(open ? (change / open) * 100 : 0);
       return { display: def.display, price, change, changePercent };
     });
-    return { statusCode: 200, headers: CORS_HEADERS, body: JSON.stringify({ stocks }) };
+    return { statusCode: 200, headers: HEADERS, body: JSON.stringify({ stocks }) };
   } catch (e) {
-    return { statusCode: 502, headers: CORS_HEADERS, body: JSON.stringify({ error: String(e) }) };
+    return { statusCode: 502, headers: HEADERS, body: JSON.stringify({ error: String(e) }) };
   }
 };

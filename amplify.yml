@@ -10,11 +10,10 @@ frontend:
   phases:
     preBuild:
       commands:
-        - node --version
-        - npm install --legacy-peer-deps --no-package-lock
+        - pnpm install --frozen-lockfile
     build:
       commands:
-        - npm run build
+        - pnpm build
   artifacts:
     baseDirectory: build
     files:
