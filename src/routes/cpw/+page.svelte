@@ -34,7 +34,7 @@
   <iframe
     bind:this={iframeElement}
     title="CPW"
-    style="width:100%;height:100vh;border:none;"
+    style="width:100%;height:100%;border:none;"
     onload={handleIframeLoad}
     onerror={handleIframeError}
     class="{isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300"

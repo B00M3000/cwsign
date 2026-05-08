@@ -66,7 +66,7 @@
   $: pastMeetings = meetings.filter((meeting) => isPastMeeting(meeting.date));
 </script>
 
-<div class="meetings-content h-screen overflow-y-auto p-12">
+<div class="meetings-content h-full overflow-y-auto p-12">
   <h3 class="text-2xl font-semibold text-slate-800 mb-4">Upcoming Meetings</h3>
 
   {#if loading}
