@@ -4,7 +4,7 @@ frontend:
     preBuild:
       commands:
         - node --version
-        - npm install -g pnpm
+        - corepack enable pnpm
         - pnpm --version
         - pnpm install --frozen-lockfile
     build:
