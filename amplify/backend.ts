@@ -1,6 +1,6 @@
 import { defineBackend } from '@aws-amplify/backend';
 import { FunctionUrlAuthType } from 'aws-cdk-lib/aws-lambda';
-import { stocksApi } from './functions/stocks-api/resource';
+import { stocksApi } from './stocks-api/resource';
 
 const backend = defineBackend({ stocksApi });
 
