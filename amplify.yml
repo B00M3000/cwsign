@@ -4,12 +4,10 @@ frontend:
     preBuild:
       commands:
         - node --version
-        - corepack enable pnpm
-        - pnpm --version
-        - pnpm install --frozen-lockfile
+        - npm install
     build:
       commands:
-        - pnpm build
+        - npm run build
   artifacts:
     baseDirectory: build
     files:
@@ -17,4 +15,3 @@ frontend:
   cache:
     paths:
       - node_modules/**/*
-      - .svelte-kit/**/*
