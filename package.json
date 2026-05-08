@@ -16,6 +16,8 @@
   "devDependencies": {
     "@aws-amplify/backend": "^1.22.0",
     "@aws-amplify/backend-cli": "^1.8.2",
+    "aws-cdk-lib": "^2.253.0",
+    "constructs": "^10.6.0",
     "@chromatic-com/storybook": "^4.1.1",
     "@fontsource/fira-mono": "^5.0.0",
     "@neoconfetti/svelte": "^2.0.0",
