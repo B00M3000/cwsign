@@ -26,9 +26,17 @@
     }
   }
 
+  function isMarketOpen(): boolean {
+    const et = new Date(new Date().toLocaleString("en-US", { timeZone: "America/New_York" }));
+    const day = et.getDay();
+    if (day === 0 || day === 6) return false;
+    const totalMin = et.getHours() * 60 + et.getMinutes();
+    return totalMin >= 9 * 60 + 30 && totalMin < 16 * 60;
+  }
+
   onMount(() => {
     fetchStocks();
-    const id = setInterval(fetchStocks, 5 * 60 * 1000);
+    const id = setInterval(() => { if (isMarketOpen()) fetchStocks(); }, 60 * 60 * 1000);
     return () => clearInterval(id);
   });
 
