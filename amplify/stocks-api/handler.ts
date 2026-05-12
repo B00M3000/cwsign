@@ -9,6 +9,7 @@ const SYMBOLS = [
   { stooq: 'meta.us',  display: 'META' },
   { stooq: 'googl.us', display: 'GOOGL' },
   { stooq: 'tsla.us',  display: 'TSLA' },
+  { stooq: 'nflx.us', display: 'NFLX' },
 ];
 
 const HEADERS = {
